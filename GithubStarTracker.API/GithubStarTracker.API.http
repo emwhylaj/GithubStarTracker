@@ -1,0 +1,6 @@
+@GithubStarTracker.API_HostAddress = http://localhost:5276
+
+GET {{GithubStarTracker.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
