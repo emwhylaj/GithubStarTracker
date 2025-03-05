@@ -15,9 +15,7 @@ namespace GithubStarTracker.API.Controllers
         {
             _githubClient = new GitHubClient(new Octokit.ProductHeaderValue("GitHubStarTracker"));
 
-            // Set GitHub personal access token
-            // In production, this should be stored in user secrets or environment variables
-            _githubClient.Credentials = new Credentials("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");
+            _githubClient.Credentials = new Credentials("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");
         }
 
         [HttpGet("repo_info")]
