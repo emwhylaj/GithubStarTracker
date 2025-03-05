@@ -15,7 +15,7 @@ namespace GithubStarTracker.API.Controllers
         {
             _githubClient = new GitHubClient(new Octokit.ProductHeaderValue("GitHubStarTracker"));
 
-            _githubClient.Credentials = new Credentials("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");
+            _githubClient.Credentials = new Credentials("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");
         }
 
         [HttpGet("repo_info")]
