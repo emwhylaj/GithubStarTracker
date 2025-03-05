@@ -11,12 +11,13 @@ namespace GithubStarTracker.API.Controllers
     public class GithubStarTrackerController : ControllerBase
     {
         private readonly GitHubClient _githubClient;
-        private readonly IConfiguration _configuration;
-        public GithubStarTrackerController(IConfiguration configuration)
+        public GithubStarTrackerController()
         {
-            _configuration = configuration;
             _githubClient = new GitHubClient(new Octokit.ProductHeaderValue("GitHubStarTracker"));
-            _githubClient.Credentials = new Credentials(configuration["GitHub:TOKEN"]);
+
+            // Set GitHub personal access token
+            // In production, this should be stored in user secrets or environment variables
+            _githubClient.Credentials = new Credentials("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");
         }
 
         [HttpGet("repo_info")]
@@ -61,7 +62,8 @@ namespace GithubStarTracker.API.Controllers
 
 
         [HttpGet("org_repos")]
-        public async Task<IActionResult> GetOrgRepos([FromQuery] string orgName,[FromQuery] int? page = 1,[FromQuery] int? pageSize = 10,[FromQuery] string sort = null)
+        public async Task<IActionResult> GetOrgRepos([FromQuery] string orgName,[FromQuery] int? page = 1,[FromQuery] int? pageSize = 10,
+        [FromQuery] string sort = null)
         {
             if (string.IsNullOrWhiteSpace(orgName))
             {
@@ -89,7 +91,7 @@ namespace GithubStarTracker.API.Controllers
                     "stars_desc" => repoQuery.OrderByDescending(r => r.Stars),
                     "description_asc" => repoQuery.OrderBy(r => r.Description),
                     "description_desc" => repoQuery.OrderByDescending(r => r.Description),
-                    _ => repoQuery 
+                    _ => repoQuery // Default sorting (no specific sort applied)
                 };
 
                 // Pagination
@@ -101,6 +103,7 @@ namespace GithubStarTracker.API.Controllers
                     .Take(currentPageSize)
                     .ToList();
 
+                // Prepare response with pagination metadata
                 var response = new
                 {
                     TotalRepositories = repos.Count,
