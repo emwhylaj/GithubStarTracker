@@ -15,7 +15,7 @@ namespace GithubStarTracker.API.Controllers
         {
             _githubClient = new GitHubClient(new Octokit.ProductHeaderValue("GitHubStarTracker"));
 
-            _githubClient.Credentials = new Credentials("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");
+            _githubClient.Credentials = new Credentials(Environment.GetEnvironmentVariable("PASTOKEN"));
         }
 
         [HttpGet("repo_info")]
@@ -89,7 +89,7 @@ namespace GithubStarTracker.API.Controllers
                     "stars_desc" => repoQuery.OrderByDescending(r => r.Stars),
                     "description_asc" => repoQuery.OrderBy(r => r.Description),
                     "description_desc" => repoQuery.OrderByDescending(r => r.Description),
-                    _ => repoQuery // Default sorting (no specific sort applied)
+                    _ => repoQuery 
                 };
 
                 // Pagination
