@@ -11,10 +11,12 @@ namespace GithubStarTracker.API.Controllers
     public class GithubStarTrackerController : ControllerBase
     {
         private readonly GitHubClient _githubClient;
-        public GithubStarTrackerController()
+        private readonly IConfiguration _configuration;
+        public GithubStarTrackerController(IConfiguration configuration)
         {
+            _configuration = configuration;
             _githubClient = new GitHubClient(new Octokit.ProductHeaderValue("GitHubStarTracker"));
-            _githubClient.Credentials = new Credentials("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");
+            _githubClient.Credentials = new Credentials(configuration["GitHub:Token"]);
         }
 
         [HttpGet("repo_info")]
